@@ -18,7 +18,7 @@
             min-height: 100vh;
         }
         .container {
-            max-width: 650px;
+            max-width: 700px;
             width: 100%;
             background-color: #2e2e2e;
             padding: 35px;
@@ -41,7 +41,7 @@
             background-color: #252526;
             padding: 20px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             border: 1px solid #3a3a3a;
         }
         .card h2 {
@@ -53,6 +53,22 @@
             margin: 0 0 15px 0;
             font-size: 14px;
             color: #b0b0b0;
+        }
+        /* Стили для скриншотов */
+        .screenshot {
+            width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            background-color: #181818;
+            border-radius: 6px;
+            border: 1px solid #3a3a3a;
+            margin-bottom: 15px;
+            cursor: zoom-in;
+            transition: transform 0.2s;
+            display: block;
+        }
+        .screenshot:hover {
+            border-color: #666666;
         }
         .btn {
             display: inline-block;
@@ -80,6 +96,26 @@
             margin-top: 25px;
             text-align: center;
         }
+        /* Всплывающее окно для увеличения фото по клику */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.88);
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+        .modal img {
+            max-width: 92%;
+            max-height: 92%;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.8);
+        }
     </style>
 </head>
 <body>
@@ -91,25 +127,40 @@
     <div class="card">
         <h2>Windows — Минималистичная версия</h2>
         <p>Открывается чистый лист. Список всех сохраненных заметок скрыт и выдвигается по кнопке «☰ Архив».</p>
+        <img src="win_hidden.png" alt="Скриншот Windows скрытый архив" class="screenshot" onclick="openModal(this.src)">
         <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Windows_Hidden.exe" class="btn">⬇ Скачать для Windows (.exe)</a>
     </div>
 
     <div class="card">
         <h2>Windows — Версия с боковой панелью</h2>
         <p>Список всех заметок всегда открыт слева для быстрого переключения, редактирования и удаления файлов.</p>
+        <img src="win_sidebar.png" alt="Скриншот Windows боковая панель" class="screenshot" onclick="openModal(this.src)">
         <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Windows_Sidebar.exe" class="btn">⬇ Скачать для Windows (.exe)</a>
     </div>
 
     <div class="card">
         <h2>Android — Мобильная версия</h2>
         <p>Легкое приложение без рекламы. Поддерживает выбор папки сохранения во внутренней памяти или на SD-карте.</p>
+        <img src="android.png" alt="Скриншот Android приложения" class="screenshot" onclick="openModal(this.src)">
         <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Android.apk" class="btn btn-android">⬇ Скачать для Android (.apk)</a>
     </div>
 
     <div class="note">
-        Примечание: При скачивании .exe файла браузер или Windows SmartScreen может предупредить о неизвестном авторе — нажмите «Всё равно скачать» / «Выполнить в любом случае».
+        Нажмите на любой скриншот, чтобы увеличить его. При скачивании .exe файла браузер может предупредить о неизвестном авторе — нажмите «Всё равно скачать».
     </div>
 </div>
+
+<!-- Окно просмотра увеличенного скриншота -->
+<div id="imageModal" class="modal" onclick="this.style.display='none'">
+    <img id="modalImg" src="" alt="Увеличенный скриншот">
+</div>
+
+<script>
+    function openModal(src) {
+        document.getElementById('modalImg').src = src;
+        document.getElementById('imageModal').style.display = 'flex';
+    }
+</script>
 
 </body>
 </html>
