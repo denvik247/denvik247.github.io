@@ -18,7 +18,7 @@
             min-height: 100vh;
         }
         .container {
-            max-width: 700px;
+            max-width: 650px;
             width: 100%;
             background-color: #2e2e2e;
             padding: 35px;
@@ -41,7 +41,7 @@
             background-color: #252526;
             padding: 20px;
             border-radius: 8px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border: 1px solid #3a3a3a;
         }
         .card h2 {
@@ -50,36 +50,30 @@
             color: #ffffff;
         }
         .card p {
-            margin: 0 0 15px 0;
+            margin: 0 0 18px 0;
             font-size: 14px;
             color: #b0b0b0;
         }
-        /* Стили для скриншотов */
-        .screenshot {
-            width: 100%;
-            max-height: 320px;
-            object-fit: contain;
-            background-color: #181818;
-            border-radius: 6px;
-            border: 1px solid #3a3a3a;
-            margin-bottom: 15px;
-            cursor: zoom-in;
-            transition: transform 0.2s;
-            display: block;
-        }
-        .screenshot:hover {
-            border-color: #666666;
+        /* Контейнер для двух кнопок в ряд */
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
         }
         .btn {
             display: inline-block;
             background-color: #3a3a3a;
             color: #ffffff;
             text-decoration: none;
-            padding: 12px 24px;
+            padding: 11px 20px;
             border-radius: 6px;
             font-weight: 600;
-            font-size: 15px;
-            transition: background-color 0.2s;
+            font-size: 14px;
+            transition: background-color 0.2s, border-color 0.2s;
+            cursor: pointer;
+            border: 1px solid transparent;
+            font-family: inherit;
         }
         .btn:hover {
             background-color: #505050;
@@ -90,13 +84,24 @@
         .btn-android:hover {
             background-color: #3b7547;
         }
+        /* Стиль для кнопки скриншота */
+        .btn-screen {
+            background-color: transparent;
+            border: 1px solid #555555;
+            color: #dcdcdc;
+        }
+        .btn-screen:hover {
+            background-color: #333333;
+            border-color: #888888;
+            color: #ffffff;
+        }
         .note {
             font-size: 12px;
             color: #888888;
             margin-top: 25px;
             text-align: center;
         }
-        /* Всплывающее окно для увеличения фото по клику */
+        /* Всплывающее окно для просмотра скриншота */
         .modal {
             display: none;
             position: fixed;
@@ -115,6 +120,7 @@
             max-height: 92%;
             border-radius: 8px;
             box-shadow: 0 0 25px rgba(0,0,0,0.8);
+            border: 1px solid #444;
         }
     </style>
 </head>
@@ -127,32 +133,38 @@
     <div class="card">
         <h2>Windows — Минималистичная версия</h2>
         <p>Открывается чистый лист. Список всех сохраненных заметок скрыт и выдвигается по кнопке «☰ Архив».</p>
-        <img src="win_hidden.png" alt="Скриншот Windows скрытый архив" class="screenshot" onclick="openModal(this.src)">
-        <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Windows_Hidden.exe" class="btn">⬇ Скачать для Windows (.exe)</a>
+        <div class="btn-group">
+            <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Windows_Hidden.exe" class="btn">⬇ Скачать для Windows (.exe)</a>
+            <button type="button" class="btn btn-screen" onclick="openModal('win_hidden.png')">👁 Посмотреть скриншот</button>
+        </div>
     </div>
 
     <div class="card">
         <h2>Windows — Версия с боковой панелью</h2>
         <p>Список всех заметок всегда открыт слева для быстрого переключения, редактирования и удаления файлов.</p>
-        <img src="win_sidebar.png" alt="Скриншот Windows боковая панель" class="screenshot" onclick="openModal(this.src)">
-        <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Windows_Sidebar.exe" class="btn">⬇ Скачать для Windows (.exe)</a>
+        <div class="btn-group">
+            <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Windows_Sidebar.exe" class="btn">⬇ Скачать для Windows (.exe)</a>
+            <button type="button" class="btn btn-screen" onclick="openModal('win_sidebar.png')">👁 Посмотреть скриншот</button>
+        </div>
     </div>
 
     <div class="card">
         <h2>Android — Мобильная версия</h2>
         <p>Легкое приложение без рекламы. Поддерживает выбор папки сохранения во внутренней памяти или на SD-карте.</p>
-        <img src="android.png" alt="Скриншот Android приложения" class="screenshot" onclick="openModal(this.src)">
-        <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Android.apk" class="btn btn-android">⬇ Скачать для Android (.apk)</a>
+        <div class="btn-group">
+            <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Android.apk" class="btn btn-android">⬇ Скачать для Android (.apk)</a>
+            <button type="button" class="btn btn-screen" onclick="openModal('android.png')">👁 Посмотреть скриншот</button>
+        </div>
     </div>
 
     <div class="note">
-        Нажмите на любой скриншот, чтобы увеличить его. При скачивании .exe файла браузер может предупредить о неизвестном авторе — нажмите «Всё равно скачать».
+        Примечание: При скачивании .exe файла браузер или Windows SmartScreen может предупредить о неизвестном авторе — нажмите «Всё равно скачать» / «Выполнить в любом случае».
     </div>
 </div>
 
-<!-- Окно просмотра увеличенного скриншота -->
+<!-- Окно просмотра скриншота -->
 <div id="imageModal" class="modal" onclick="this.style.display='none'">
-    <img id="modalImg" src="" alt="Увеличенный скриншот">
+    <img id="modalImg" src="" alt="Скриншот программы">
 </div>
 
 <script>
