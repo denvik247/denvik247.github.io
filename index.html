@@ -179,7 +179,7 @@
         document.getElementById('imageModal').style.display = 'flex';
     }
 
-    // Скрипт автоматического получения статистики с GitHub
+        // Скрипт автоматического получения статистики с GitHub
     async function loadDownloadStats() {
         try {
             // Запрашиваем информацию о релизах у GitHub API
@@ -187,9 +187,13 @@
             if (!response.ok) return;
             const data = await response.json();
             
+            // Проверяем, что получили массив и в нём есть хотя бы один релиз
             if (data && data.length > 0) {
-                const assets = data[0].assets;
+                // БЕРЕМ ПЕРВЫЙ РЕЛИЗ ИЗ СПИСКА (индекс 0)
+                const assets = data[0].assets; 
                 
+                if (!assets) return;
+
                 // Пробегаемся по файлам в релизе и ищем совпадения по именам
                 assets.forEach(asset => {
                     if (asset.name.includes('Hidden')) {
