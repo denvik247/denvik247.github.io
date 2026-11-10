@@ -179,33 +179,36 @@
         document.getElementById('imageModal').style.display = 'flex';
     }
 
-        // Скрипт автоматического получения статистики с GitHub
-        // Скрипт автоматического получения статистики с GitHub
+            // Скрипт автоматического получения статистики с GitHub
     async function loadDownloadStats() {
         try {
-            // Запрашиваем информацию строго о САМОМ ПОСЛЕДНЕМ релизе (без массивов)
+            // Запрашиваем полный список релизов (так надежнее)
             const response = await fetch('https://github.com');
             if (!response.ok) return;
             const data = await response.json();
             
-            // Получаем список файлов напрямую из объекта релиза
-            const assets = data.assets;
-            
-            if (assets && assets.length > 0) {
-                assets.forEach(asset => {
-                    // Проверяем, содержит ли имя файла ключевые слова
-                    if (asset.name.toLowerCase().includes('hidden')) {
-                        document.getElementById('count-hidden').innerText = `Скачано: ${asset.download_count} раз`;
-                    } else if (asset.name.toLowerCase().includes('sidebar')) {
-                        document.getElementById('count-sidebar').innerText = `Скачано: ${asset.download_count} раз`;
-                    } else if (asset.name.toLowerCase().includes('android') || asset.name.endsWith('.apk')) {
-                        document.getElementById('count-android').innerText = `Скачано: ${asset.download_count} раз`;
-                    }
-                });
+            // Проверяем, что пришел список и в нём есть хотя бы один релиз
+            if (data && data.length > 0) {
+                // Берем самый первый релиз из списка (индекс 0)
+                const latestRelease = data[0];
+                const assets = latestRelease.assets;
+                
+                if (assets && assets.length > 0) {
+                    assets.forEach(asset => {
+                        const name = asset.name.toLowerCase();
+                        // Проверяем, содержит ли имя файла ключевые слова
+                        if (name.includes('hidden')) {
+                            document.getElementById('count-hidden').innerText = `Скачано: ${asset.download_count} раз`;
+                        } else if (name.includes('sidebar')) {
+                            document.getElementById('count-sidebar').innerText = `Скачано: ${asset.download_count} раз`;
+                        } else if (name.includes('android') || name.endsWith('.apk')) {
+                            document.getElementById('count-android').innerText = `Скачано: ${asset.download_count} раз`;
+                        }
+                    });
+                }
             }
         } catch (e) {
             console.error(e);
-            // Если произошла ошибка сети, убираем зависшую надпись
             document.getElementById('count-hidden').innerText = 'Скачано: 0 раз';
             document.getElementById('count-sidebar').innerText = 'Скачано: 0 раз';
             document.getElementById('count-android').innerText = 'Скачано: 0 раз';
