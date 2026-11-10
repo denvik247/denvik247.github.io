@@ -93,12 +93,11 @@
             border-color: #888888;
             color: #ffffff;
         }
-        /* Стиль для счетчика скачиваний */
-        .counter {
-            font-size: 13px;
-            color: #888888;
+        /* Стиль для графического счетчика скачиваний */
+        .badge {
             margin-left: auto;
-            font-weight: normal;
+            display: block;
+            height: 20px;
         }
         .note {
             font-size: 12px;
@@ -138,9 +137,10 @@
         <h2>Windows — Минималистичная версия</h2>
         <p>Открывается чистый лист. Список всех сохраненных заметок скрыт и выдвигается по кнопке «☰ Архив».</p>
         <div class="btn-group">
-            <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Windows_Hidden.exe" class="btn">⬇ Скачать для Windows (.exe)</a>
+            <a href="ВСТАВЬТЕ_СЮДА_ССЫЛКУ_НА_СКРЫТУЮ_ВЕРСИЮ_EXE" class="btn">⬇ Скачать для Windows (.exe)</a>
             <button type="button" class="btn btn-screen" onclick="openModal('win_hidden.png')">👁 Посмотреть скриншот</button>
-            <span id="count-hidden" class="counter">Загрузка...</span>
+            <!-- Динамический графический счетчик для Hidden версии -->
+            <img class="badge" src="https://shields.io" alt="Счетчик скачиваний">
         </div>
     </div>
 
@@ -148,9 +148,10 @@
         <h2>Windows — Версия с боковой панелью</h2>
         <p>Список всех заметок всегда открыт слева для быстрого переключения, редактирования и удаления файлов.</p>
         <div class="btn-group">
-            <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Windows_Sidebar.exe" class="btn">⬇ Скачать для Windows (.exe)</a>
+            <a href="ВСТАВЬТЕ_СЮДА_ССЫЛКУ_НА_ОТКРЫТУЮ_ВЕРСИЮ_EXE" class="btn">⬇ Скачать для Windows (.exe)</a>
             <button type="button" class="btn btn-screen" onclick="openModal('win_sidebar.png')">👁 Посмотреть скриншот</button>
-            <span id="count-sidebar" class="counter">Загрузка...</span>
+            <!-- Динамический графический счетчик для Sidebar версии -->
+            <img class="badge" src="https://shields.io" alt="Счетчик скачиваний">
         </div>
     </div>
 
@@ -158,14 +159,15 @@
         <h2>Android — Мобильная версия</h2>
         <p>Легкое приложение без рекламы. Поддерживает выбор папки сохранения во внутренней памяти или на SD-карте.</p>
         <div class="btn-group">
-            <a href="https://github.com/denvik247/quick-notepad/releases/download/v1.0/QuickNotepad_Android.apk" class="btn btn-android">⬇ Скачать для Android (.apk)</a>
+            <a href="ВСТАВЬТЕ_СЮДА_ССЫЛКУ_НА_ANDROID_APK" class="btn btn-android">⬇ Скачать для Android (.apk)</a>
             <button type="button" class="btn btn-screen" onclick="openModal('android.png')">👁 Посмотреть скриншот</button>
-            <span id="count-android" class="counter">Загрузка...</span>
+            <!-- Динамический графический счетчик для Android версии -->
+            <img class="badge" src="https://shields.io" alt="Счетчик скачиваний">
         </div>
     </div>
 
     <div class="note">
-        Примечание: При скачивании .exe файла браузер или Windows SmartScreen может предупредить о неизвестном авторе — нажмите «Всё равно скачать».
+        При скачивании .exe файла браузер или Windows SmartScreen может предупредить о неизвестном авторе — нажмите «Всё равно скачать».
     </div>
 </div>
 
@@ -178,46 +180,6 @@
         document.getElementById('modalImg').src = src;
         document.getElementById('imageModal').style.display = 'flex';
     }
-
-                // Скрипт автоматического получения статистики с GitHub
-    async function loadDownloadStats() {
-        try {
-            // Запрашиваем полный список релизов
-            const response = await fetch('https://github.com');
-            if (!response.ok) return;
-            const data = await response.json();
-            
-            // Проверяем, что пришел список и в нём есть хотя бы один релиз
-            if (data && data.length > 0) {
-                // БЕРЕМ ПЕРВЫЙ ЭЛЕМЕНТ ИЗ МАССИВА (индекс 0 в квадратных скобках)
-                const latestRelease = data[0]; 
-                const assets = latestRelease.assets;
-                
-                if (assets && assets.length > 0) {
-                    assets.forEach(asset => {
-                        // Переводим имя файла в нижний регистр для точного сравнения
-                        const name = asset.name.toLowerCase();
-                        
-                        if (name.includes('hidden')) {
-                            document.getElementById('count-hidden').innerText = `Скачано: ${asset.download_count} раз`;
-                        } else if (name.includes('sidebar')) {
-                            document.getElementById('count-sidebar').innerText = `Скачано: ${asset.download_count} раз`;
-                        } else if (name.includes('android') || name.endsWith('.apk')) {
-                            document.getElementById('count-android').innerText = `Скачано: ${asset.download_count} раз`;
-                        }
-                    });
-                }
-            }
-        } catch (e) {
-            console.error(e);
-            document.getElementById('count-hidden').innerText = 'Скачано: 0 раз';
-            document.getElementById('count-sidebar').innerText = 'Скачано: 0 раз';
-            document.getElementById('count-android').innerText = 'Скачано: 0 раз';
-        }
-    }
-    
-    // Запускаем подсчет при открытии страницы
-    loadDownloadStats();
 </script>
 
 </body>
